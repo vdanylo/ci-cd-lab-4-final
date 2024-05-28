@@ -25,7 +25,8 @@ SECRET_KEY = "django-insecure-9*t1kkzyy@qe36tt8gh9-^4f!d7n&7dr-smaz+l_6z_4e8^%n2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['django-store-38382fc9e880.herokuapp.com', 'localhost', '127.0.0.1']
+ALLOWED_HOSTS = ['*']
+
 
 CSRF_TRUSTED_ORIGINS = [
     'https://django-store-38382fc9e880.herokuapp.com'
