@@ -28,9 +28,9 @@ DEBUG = False
 ALLOWED_HOSTS = ['https://ci-cd-lab-4-final.onrender.com']
 
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://ci-cd-lab-4-final.onrender.com'
-]
+# CSRF_TRUSTED_ORIGINS = [
+    # 'https://ci-cd-lab-4-final.onrender.com'
+# ]
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
