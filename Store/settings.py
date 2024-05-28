@@ -25,12 +25,12 @@ SECRET_KEY = "django-insecure-9*t1kkzyy@qe36tt8gh9-^4f!d7n&7dr-smaz+l_6z_4e8^%n2
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['*']
+ALLOWED_HOSTS = ['https://ci-cd-lab-4-final.onrender.com']
 
 
-# CSRF_TRUSTED_ORIGINS = [
-#     'https://django-store-38382fc9e880.herokuapp.com'
-# ]
+CSRF_TRUSTED_ORIGINS = [
+    'https://ci-cd-lab-4-final.onrender.com'
+]
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
