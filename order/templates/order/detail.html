@@ -1,0 +1,88 @@
+{% extends 'core/base.html' %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% block title %}Оплата замовлення{% endblock %}
+{% block content %}
+<section class="py-5">
+
+    <h1 class="fw-bolder mb-4 text-center" style="text-decoration: underline;">
+      Замовлення - {{ order.id }}
+    </h1>
+
+    <div class="row">
+        <div class="col-6">
+            <h1 class="fw-bolder mb-4 text-center" style="margin-top: 3rem; padding-top: 1.5rem;">Дані замовлення</h1>
+
+            <ul class="list-group">
+                <li class="list-group-item">
+                        <strong>Оформлено:</strong> {{ order.created_at }}
+                    </li>
+                  {% if order.paid %}
+                    <li class="list-group-item">
+                        <strong>Вартість на момент оплати:</strong> {{ order.total_price}}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Оплачено:</strong> Так
+                    </li>
+                  {% else %}
+                    <li class="list-group-item">
+                        <strong>Поточна вартість:</strong> {{ order.get_current_total_price }}
+                    </li>
+                    <li class="list-group-item">
+                        <strong>Оплачено:</strong> Ні
+                    </li>
+                  {% endif %}
+            </ul>
+
+            {% if not order.paid %}
+              <div class="text-center mt-3 d-flex justify-content-center">
+                  <a href="{% url 'order:payment' order.id%}" class="btn btn-primary me-2">Перейти до сплати</a>
+              </div>
+            {% endif %}
+
+            <h1 class="fw-bolder mb-4 text-center" style="margin-top: 3rem; padding-top: 1.5rem;">Дані доставки</h1>
+            <div class="container px-1 px-lg-2 mt-5">
+                {% if order.address %}
+                    <ul class="list-group">
+                      <li class="list-group-item">
+                        <strong>Область:</strong> {{ order.address.state }}
+                      </li>
+                      <li class="list-group-item">
+                        <strong>Місто:</strong> {{ order.address.city }}
+                      </li>
+                      <li class="list-group-item">
+                        <strong>Вулиця:</strong> {{ order.address.street }}
+                      </li>
+                      <li class="list-group-item">
+                        <strong>Будинок:</strong> {{ order.address.house }}
+                      </li>
+                      <li class="list-group-item">
+                        <strong>Поштовий індекс:</strong> {{ order.address.zip_code }}
+                      </li>
+                    </ul>
+                {% else %}
+                    <p>Немає даних про адресу доставки.</p>
+                {% endif %}
+            </div>
+
+            <div class="text-center mt-3 d-flex justify-content-center">
+                <a href="{% url 'order:cancel' order.id%}" class="btn btn-warning me-2">Скасувати замовлення</a>
+            </div>
+
+        </div>
+        <div class="col-6">
+            <h1 class="fw-bolder mb-4 text-center" style="margin-top: 3rem; padding-top: 1.5rem;">Товари</h1>
+            <div class="container px-2 px-lg-3">
+                <div class="row gx-1 gx-lg-2 justify-content-center">
+                    <div class="row gy-2">
+                        {% for order_item in order.items.all %}
+                            {% include 'order/ordered_item_element.html' %}
+                        {% endfor %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}

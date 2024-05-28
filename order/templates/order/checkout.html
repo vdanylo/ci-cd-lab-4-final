@@ -1,0 +1,64 @@
+{% extends 'core/base.html' %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% block title %}Оформлення замовлення{% endblock %}
+{% block content %}
+<section class="py-5">
+
+    {% if items.count == 0 %}
+    <div style="text-align: center; margin-top: 100px;">
+        <h1>Your cart is empty</h1>
+        <a href="{% url 'index' %}" class="btn btn-primary">Go to Shop</a>
+    </div>
+    {% else %}
+    <h1 class="fw-bolder mb-4 text-center" style="text-decoration: underline;">Оформити замовлення</h1>
+    <div class="row">
+        <div class="col-6">
+            <h1 class="fw-bolder mb-4 text-center" style="margin-top: 3rem; padding-top: 1.5rem;">Місце доставки</h1>
+            <div class="container px-1 px-lg-2 mt-5">
+                <div class="row gx-1 gx-lg-1 justify-content-center">
+                    <div class="col-lg-10 col-xl-10">
+                        <form id="form_1" method="post" action="">
+                            {% csrf_token %}
+                            {% bootstrap_form address_form %}
+                            <button type="submit" id="submit"  class="btn btn-primary">
+                                Оформити замовлення і перейти до сплати
+                            </button>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <h1 class="fw-bolder mb-4 text-center" style="margin-top: 3rem; padding-top: 1.5rem;">Корзина</h1>
+            <div class="container px-0 px-lg-1 mt-5">
+                <div class="row gx-1 gx-lg-2 justify-content-center">
+                    <div class="col-lg-10 col-xl-8">
+                        <div class="row gy-2">
+                            {% for order_item in items %}
+                            {% include 'order/ordered_item_element.html' %}
+                            {% endfor %}
+                            <div class="col">
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>Всього</strong>
+                                </div>
+                                <div class="col-6 d-flex justify-content-end">
+                                    <span class="text-right font-weight-bold h4">{{ total_price }} Грн.</span>
+                                </div>
+                            </div>
+                        </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="text-center mt-3 d-flex justify-content-center">
+                <a href="{% url 'cart:cart' %}" class="btn btn-primary me-2">Редагувати корзину</a>
+                <a href="{% url 'index' %}" class="btn btn-secondary">Повернутися до покупок</a>
+            </div>
+        </div>
+    </div>
+    {% endif %}
+</section>
+{% endblock %}

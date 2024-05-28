@@ -1,0 +1,106 @@
+{% extends 'core/base.html' %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+
+{% block title %}Orders{% endblock %}
+
+{% block content %}
+<section class="py-5">
+
+    <h1 class="fw-bolder mb-4 text-center" style="text-decoration: underline;">
+        Замовлення
+    </h1>
+        {% if orders.count == 0 %}
+        <h3 class="mb-4 text-center">Немає жодного замовлення</h3>
+        {% else %}
+            <div class="container px-4 px-lg-5 gy-2 mb-3"> <!-- Added mb-3 class for margin-bottom -->
+    {% for order in orders %}
+    <div class="card h-100 gy-2">
+        <div class="col gy-2">
+            <div class="row">
+                <div class="row">
+                    <div class="col">
+                        <div class="row px-2 pt-1">
+                            <div class="col-6">
+                                <span class="text-left font-weight-bold h4"><strong>Id: </strong>{{ order.id }}</span>
+                            </div>
+                            <div class="col-6 d-flex justify-content-end">
+                                {% if not order.paid %}
+                                    <div style="margin-right: 20px;">
+                                        <span class="text-right font-weight-bold h4" style="color: red;"><strong>Not paid</strong></span>
+                                    </div>
+                                {% endif %}
+                                <div>
+                                    <span class="text-right font-weight-bold h4"><strong>{{ order.created_at }}</strong></span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="row">
+                    <!-- Content of the card -->
+                    <section class="py-5">
+                        <div class="container px-4 px-lg-5 gy-2">
+                            <div class="row gy-3">
+                                <div class="col-lg-9">
+                                    <div class="row gy-1">
+                                        {% for item in order.items.all %}
+                                            {% if forloop.counter <= 3 %}
+                                                <div class="col-lg-4">
+                                                    <div class="card h-100">
+                                                        <div class="card-body d-flex flex-column">
+                                                            <div class="row">
+                                                                <div class="col-12">
+                                                                    <!-- Image -->
+                                                                    <a href="{% url 'item:detail' item.item.id%}">
+                                                                        <img class="card-img-top" src="{{item.item.image.url}}" alt="..." />
+                                                                    </a>
+                                                                </div>
+                                                            </div>
+                                                            <div class="row mt-auto">
+                                                                <div class="col-12">
+                                                                    <!-- Item Name and Quantity -->
+                                                                    <h5 class="card-title text-truncate">{{ item.item.name }}</h5>
+                                                                    <p class="card-text">Кількість: {{ item.quantity }}</p>
+                                                                </div>
+                                                            </div>
+                                                        </div>
+                                                    </div>
+                                                </div>
+                                            {% endif %}
+                                        {% endfor %}
+                                        {% if order.items.all|length > 3 %}
+                                            <div class="col-lg-4">
+                                                <div class="card h-100">
+                                                    <div class="card-body">
+                                                        <h5 class="card-title text-truncate">...</h5>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                <div class="col-lg-3">
+                                    <div class="d-flex justify-content-center">
+                                        <a class="btn btn-outline-dark mt-auto" href="{% url 'order:detail' order.id %}">
+                                            Переглянути замовлення
+                                        </a>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </section>
+                </div>
+            </div>
+        </div>
+    </div>
+    {% endfor %}
+        {% endif %}
+</div>
+
+</section>
+
+
+
+{% endblock %}

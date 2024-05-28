@@ -1,0 +1,32 @@
+<div class="col-12">
+    <div class="card h-100">
+        <div class="row g-0">
+            <div class="col-md-4">
+                <a href="{% url 'item:detail' order_item.item.id %}">
+        {% if order_item.item.image %}
+            <img class="img-fluid rounded-start" src="{{ order_item.item.image.url }}" alt="{{ order_item.item.name }}">
+        {% endif %}
+                </a>
+            </div>
+            <div class="col-md-8">
+                <div class="row">
+                    <div class="col-6 px-2">
+                        <div class="card-body">
+                            <h5 class="card-title">{{ order_item.item.name }}</h5>
+                            <p class="card-text">ID: {{ order_item.item.id }}</p>
+                        </div>
+                    </div>
+                    <div class="col-6 px-2">
+                        <div class="card-body d-flex flex-column justify-content-center align-items-center">
+                            <div class="input-group mb-3 d-flex justify-content-center">
+                                <input class="form-control text-center me-3" type="num"
+                                    value="{{ order_item.quantity }}" style="max-width: 3rem" readonly />
+                            </div>
+                            <p class="card-text">{{ order_item.item.price }} Грн.</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

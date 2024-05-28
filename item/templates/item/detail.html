@@ -1,0 +1,85 @@
+{% extends 'core/base.html' %} {% load bootstrap5 %} {% bootstrap_css %} {%
+bootstrap_javascript %}
+
+{% block title %}{{item.name}}{% endblock %}
+
+{% block content %}
+<!-- Product section-->
+<section class="py-5">
+  <div class="container px-4 px-lg-5 my-5">
+    <div class="row gx-4 gx-lg-5 align-items-center">
+      <div class="col-md-6">
+        <img class="card-img-top mb-5 mb-md-0" src="{{item.image.url}}" alt="..." />
+      </div>
+      <div class="col-md-6">
+        <div class="small mb-1">Продовець: {{item.created_by}}</div>
+        <h1 class="display-5 fw-bolder">{{item.name}}</h1>
+        <div class="fs-5 mb-5">
+          <!-- <span class="text-decoration-line-through">$45.00</span> -->
+          <!-- <span>$40.00</span> -->
+          {{item.price}} грн
+        </div>
+        <p class="lead">{{item.description}}</p>
+        {% if item.created_by == request.user %}
+        <div class="d-flex gap-3">
+          <a href="{% url 'item:delete' item.id %}" class="btn btn-danger">Видалити</a>
+          <a href="{% url  'item:edit' item.id %}" class="btn btn-dark">Редагувати</a>
+        </div>
+        {% else %}
+        <div class="d-flex">
+          <input class="form-control text-center me-3" id="inputQuantity" type="num" value="1"
+            style="max-width: 3rem" />
+          <button class="btn btn-outline-dark flex-shrink-0 me-3" type="button">
+            <i class="bi-cart-fill me-1"></i>
+            Додати до кошика
+          </button>
+        </div>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Related items section-->
+<section class="py-2 bg-light">
+  <div class="container px-4 px-lg-5 mt-5">
+    <h2 class="fw-bolder mb-4 text-center">Схожі продукти</h2>
+    <div class="row gx-4 gx-lg-5 row-cols-2 row-cols-md-3 row-cols-xl-4 justify-content-center">
+      {%for item in related_items %}
+      <div class="col mb-5">
+        <div class="card h-100">
+          <!-- Product image-->
+          <a href="{% url 'item:detail' item.id%}">
+            <img class="card-img-top" src="{{item.image.url}}" alt="..." />
+          </a>
+          <!-- Product details-->
+          <div class="card-body p-4">
+            <div class="text-center">
+              <!-- Product name-->
+              <h5 class="fw-bolder">{{item.name}}</h5>
+              <!-- Product reviews-->
+              <div class="d-flex justify-content-center small text-warning mb-2">
+                <div class="bi-star-fill"></div>
+                <div class="bi-star-fill"></div>
+                <div class="bi-star-fill"></div>
+                <div class="bi-star-fill"></div>
+                <div class="bi-star-fill"></div>
+              </div>
+              <!-- Product price-->
+              {{item.price}}
+            </div>
+          </div>
+          <!-- Product actions-->
+          <div class="card-footer p-4 pt-0 border-top-0 bg-transparent">
+            <div class="text-center">
+              <a class="btn btn-outline-dark mt-auto" href="#">Додати до кошика</a>
+            </div>
+          </div>
+        </div>
+      </div>
+      {%endfor%}
+    </div>
+  </div>
+</section>
+
+{%endblock%}

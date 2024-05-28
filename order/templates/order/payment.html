@@ -1,0 +1,87 @@
+{% extends 'core/base.html' %}
+{% load bootstrap5 %}
+{% bootstrap_css %}
+{% bootstrap_javascript %}
+{% block title %}Оплата замовлення{% endblock %}
+{% block content %}
+<section class="py-5">
+    <h1 class="fw-bolder mb-4 text-center" style="text-decoration: underline;">
+        Замовлення - {{ order.id }}
+    </h1>
+    <div class="row">
+        <div class="col-6">
+            <h1 class="fw-bolder mb-4 text-center" style="margin-top: 3rem; padding-top: 1.5rem;">Оплата замовлення</h1>
+            <div class="container px-1 px-lg-2 mt-5">
+                <div class="row gx-1 gx-lg-1 justify-content-center">
+                    <div class="col-lg-10 col-xl-10">
+                        <form id="form_2" method="post" action="">
+                            {% csrf_token %}
+                            {% bootstrap_form form %}
+                            <div class="d-flex justify-content-between align-items-center mt-3">
+                                <a href="{% url 'index' %}" class="btn btn-secondary mx-1">Оплатити потім</a>
+                                <button type="submit" id="submit" class="btn btn-primary">Оплатити</button>
+                            </div>
+                            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.5.1/jquery.min.js"></script>
+                            <script>
+                                $(document).ready(function() {
+                                    $('#id_card_number').keyup(function() {
+                                        var val = $(this).val();
+                                        val = val.replace(/[^0-9]/g, '');
+                                        if (val.length > 4) {
+                                            val = val.substring(0, 4) + '-' + val.substring(4);
+                                        }
+                                        if (val.length > 9) {
+                                            val = val.substring(0, 9) + '-' + val.substring(9);
+                                        }
+                                        if (val.length > 14) {
+                                            val = val.substring(0, 14) + '-' + val.substring(14);
+                                        }
+                                        if (val.length > 19) { // 16 digits + 3 dashes
+                                            val = val.substring(0, 19);
+                                        }
+                                        $(this).val(val);
+                                    });
+
+                                    $('#id_expiry_date').keyup(function() {
+                                        var val = $(this).val();
+                                        val = val.replace(/[^0-9]/g, '');
+                                        if (val.length > 2) {
+                                            val = val.substring(0, 2) + '/' + val.substring(2);
+                                        }
+                                        if (val.length > 5) { // 4 digits + 1 slash
+                                            val = val.substring(0, 5);
+                                        }
+                                        $(this).val(val);
+                                    });
+                                });
+                            </script>
+                        </form>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <div class="col-6">
+            <h1 class="fw-bolder mb-4 text-center" style="margin-top: 3rem; padding-top: 1.5rem;">Товари</h1>
+            <div class="container px-2 px-lg-3">
+                <div class="row gx-1 gx-lg-2 justify-content-center">
+                    <div class="row gy-2">
+                        {% for order_item in order.items.all %}
+                        {% include 'order/ordered_item_element.html' %}
+                        {% endfor %}
+                        <div class="col">
+                            <div class="row">
+                                <div class="col-6">
+                                    <strong>Всього</strong>
+                                </div>
+                                <div class="col-6 d-flex justify-content-end">
+                                    <span class="text-right font-weight-bold h4">{{ order.get_current_total_price }} Грн.</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
