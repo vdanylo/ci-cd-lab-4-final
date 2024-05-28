@@ -32,9 +32,9 @@ ALLOWED_HOSTS = ['https://ci-cd-lab-4-final.onrender.com']
     # 'https://ci-cd-lab-4-final.onrender.com'
 # ]
 
-LOGIN_URL = '/login/'
-LOGIN_REDIRECT_URL = '/'
-LOGOUT_REDIRECT_URL = '/'
+LOGIN_URL = 'https://ci-cd-lab-4-final.onrender.com/login/'
+LOGIN_REDIRECT_URL = 'https://ci-cd-lab-4-final.onrender.com/'
+LOGOUT_REDIRECT_URL = 'https://ci-cd-lab-4-final.onrender.com/'
 
 
 # Application definition
