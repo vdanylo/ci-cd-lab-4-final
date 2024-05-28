@@ -28,9 +28,9 @@ DEBUG = True
 ALLOWED_HOSTS = ['*']
 
 
-CSRF_TRUSTED_ORIGINS = [
-    'https://django-store-38382fc9e880.herokuapp.com'
-]
+# CSRF_TRUSTED_ORIGINS = [
+#     'https://django-store-38382fc9e880.herokuapp.com'
+# ]
 
 LOGIN_URL = '/login/'
 LOGIN_REDIRECT_URL = '/'
